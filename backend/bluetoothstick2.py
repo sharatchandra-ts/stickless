@@ -84,35 +84,35 @@ while True:
         #     print("CRASH")
         #     last_time = now
 
-        lineL = serL.readline().decode().strip()
-        if not lineL:
-            continue
+        # lineL = serL.readline().decode().strip()
+        # if not lineL:
+        #     continue
 
-        partsL = lineL.split(',')
-        if len(partsL) != 4:
-            continue  # bad line
+        # partsL = lineL.split(',')
+        # if len(partsL) != 4:
+        #     continue  # bad line
 
-        # timestamp, accelX, accelY, accelZ
-        tL, xL, yL, zL = partsL
-        xL = float(xL)
-        yL = float(yL)
-        zL = float(zL)
+        # # timestamp, accelX, accelY, accelZ
+        # tL, xL, yL, zL = partsL
+        # xL = float(xL)
+        # yL = float(yL)
+        # zL = float(zL)
 
 
-        # simple hit detection
-        if abs(xL) > SNARE_THRESHOLD_L and now - last_time_l > DEBOUNCE_MS:
-            play_sound("SNARE-L")
-            last_time_l = now
-        elif abs(yL) > KICK_THRESHOLD_L and now - last_time_l > DEBOUNCE_MS:
-            play_sound("KICK-L")
-            last_time_l = now
-        # if -(y) > KICK_THRESHOLD and now - last_time > DEBOUNCE_MS:
-        #     play_sound("KICK2")
-        #     last_time = now
-        # optionally add hihat/crash using z or other axes
-        # if abs(z) > CRASH_THRESHOLD and now - last_time > DEBOUNCE_MS:
-        #     print("CRASH")
-        #     last_time = now
+        # # simple hit detection
+        # if abs(xL) > SNARE_THRESHOLD_L and now - last_time_l > DEBOUNCE_MS:
+        #     play_sound("SNARE-L")
+        #     last_time_l = now
+        # elif abs(yL) > KICK_THRESHOLD_L and now - last_time_l > DEBOUNCE_MS:
+        #     play_sound("KICK-L")
+        #     last_time_l = now
+        # # if -(y) > KICK_THRESHOLD and now - last_time > DEBOUNCE_MS:
+        # #     play_sound("KICK2")
+        # #     last_time = now
+        # # optionally add hihat/crash using z or other axes
+        # # if abs(z) > CRASH_THRESHOLD and now - last_time > DEBOUNCE_MS:
+        # #     print("CRASH")
+        # #     last_time = now
 
     except Exception as e:
         print("Error:", e)

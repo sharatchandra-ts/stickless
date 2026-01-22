@@ -22,6 +22,7 @@ void loop() {
   mpu.getEvent(&a, &g, &temp);
 
   SerialBT.printf("%lu,%.3f,%.3f,%.3f\n", millis(), a.acceleration.x, a.acceleration.y, a.acceleration.z);
+  //Serial.printf("%lu,%.3f,%.3f,%.3f\n", millis(), a.acceleration.x, a.acceleration.y, a.acceleration.z);
 
   /*
   float threshold = 200.0;
