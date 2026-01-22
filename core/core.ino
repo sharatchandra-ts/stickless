@@ -1,47 +1,42 @@
-#include "BluetoothSerial.h"
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
+#include <Wire.h>
+#include <MPU9250.h>
 
-Adafruit_MPU6050 mpu;
-BluetoothSerial SerialBT;
+MPU9250 mpu;
 
 void setup() {
   Serial.begin(115200);
-  SerialBT.begin("DrumStick1");
+  Wire.begin(21, 22);  //is this code  SDA=21, SCL=22 in esp32
 
-  if (!mpu.begin()) {
-    Serial.println("MPU6050 connection failed. Check wiring!");
+ 
+  delay(1000);
+  
+  if (!mpu.setup(0x68)) {
+    Serial.println("MPU connection failed. Check wiring!");
     while (1);
   }
 
-  Serial.println("READY");
-} 
+  Serial.println("READY"); 
+  delay(1000);
+}
 
 void loop() {
-  sensors_event_t a, g, temp;
-  mpu.getEvent(&a, &g, &temp);
+  if (mpu.update()) {
+    float accX = mpu.getAccX();
+    float accY = mpu.getAccY();
+    float accZ = mpu.getAccZ();
+    
+  
+    if (accY > 4.0) {//for down
+      Serial.println("KICK");
 
-  SerialBT.printf("%lu,%.3f,%.3f,%.3f\n", millis(), a.acceleration.x, a.acceleration.y, a.acceleration.z);
-  //Serial.printf("%lu,%.3f,%.3f,%.3f\n", millis(), a.acceleration.x, a.acceleration.y, a.acceleration.z);
+    }
+    
 
-  /*
-  float threshold = 200.0;
-
-  float accX = a.acceleration.x;
-  float accY = a.acceleration.y;
-  // float accZ = a.acceleration.z;
-
-  if (accY*accY > threshold + 100) {
-    // Serial.println("KICK");
-    SerialBT.println("KICK");
+    if (accX > 4.0) {// right swing 
+      Serial.println("SNARE");
+ 
+    }
+    
+    delay(50);
   }
-
-  else if (accX*accX > threshold) {
-    // Serial.println("SNARE");
-    SerialBT.println("SNARE");
-
-  }
-
-  delay(100);
-  */
 }
